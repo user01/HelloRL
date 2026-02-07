@@ -17,8 +17,10 @@ class DataLoadMethodEpochs(DataLoadMethod):
             data.rewards.squeeze(0), data.terminateds.squeeze(0), data.truncateds.squeeze(0),
             data.dones.squeeze(0), data.critic_values.squeeze(0), data.log_probs.squeeze(0),
             data.returns.squeeze(0), data.advantages.squeeze(0))
+        default_device = torch.get_default_device()
+        generator = torch.Generator(device=default_device) if default_device else None
         for epoch in range(self.n_epochs):
-            loader = DataLoader(dataset, batch_size=self.mb_size, shuffle=True)
+            loader = DataLoader(dataset, batch_size=self.mb_size, shuffle=True, generator=generator)
 
             for batch in loader:
                 b_states, b_actions, b_next_states, b_rewards, b_terminateds, b_truncateds, \

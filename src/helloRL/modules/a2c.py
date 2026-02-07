@@ -52,7 +52,7 @@ class RolloutMethodA2C(RolloutMethod):
                     actions_t = agent.actor.exploration(actions_t)
                     log_probs_t, _ = agent.actor.get_log_prob_and_entropy(states_t, actions_t)
                     critic_values_t = agent.get_critic_value(states_t, actions_t)
-                actions_np = actions_t.squeeze(-1).numpy() # (n_envs)
+                actions_np = actions_t.squeeze(-1).cpu().numpy() # (n_envs)
                 next_states, rewards, terminateds, truncateds, infos = envs.step(actions_np)
 
                 dones = terminateds | truncateds

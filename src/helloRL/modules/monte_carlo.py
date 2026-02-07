@@ -29,7 +29,7 @@ class RolloutMethodMonteCarlo(RolloutMethod):
                 with torch.no_grad():
                     action_t, _ = actor.output(state_t)
 
-                action_np = action_t.squeeze().numpy()
+                action_np = action_t.squeeze().cpu().numpy()
                 next_state, reward, terminated, truncated, info = env.step(action_np)
 
                 next_state_t = torch.tensor(next_state, dtype=torch.float32).unsqueeze(0)  # shape: (1, state_space)
@@ -104,7 +104,7 @@ class RolloutMethodMonteCarlo(RolloutMethod):
                     log_prob, _ = agent.actor.get_log_prob_and_entropy(state_t, action_t)
                     critic_value = agent.get_critic_value(state_t, action_t)
 
-                action_np = action_t.squeeze().numpy()
+                action_np = action_t.squeeze().cpu().numpy()
                 next_state, reward, terminated, truncated, info = env.step(action_np)
 
                 next_state_t = torch.tensor(next_state, dtype=torch.float32).unsqueeze(0)  # shape: (1, state_space)

@@ -79,7 +79,7 @@ def run_sim_once(env, agent, seed=None, options=None, render_params=None):
         else:
             action_t = agent.output(state_t)[0]
 
-        action_np = action_t.squeeze().detach().numpy()
+        action_np = action_t.squeeze().detach().cpu().numpy()
         next_state, reward, terminated, truncated, info = env.step(action_np)
 
         episode_rewards.append(reward)
